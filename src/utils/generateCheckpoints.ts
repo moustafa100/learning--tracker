@@ -2,7 +2,6 @@ import { Checkpoint } from '../types';
 
 export const generateCheckpoints = (notes: string): Checkpoint[] => {
   // Simulate AI processing by generating relevant checkpoints
-  const sentences = notes.split(/[.!?]+/).filter(s => s.trim().length > 10);
   const concepts = extractKeyConcepts(notes);
   
   const checkpoints: Checkpoint[] = [];
@@ -14,7 +13,7 @@ export const generateCheckpoints = (notes: string): Checkpoint[] => {
       checkpoints.push({
         id: id++,
         title: `Understanding ${concept.term}`,
-        description: generateDescription(concept, notes),
+        description: generateDescription(concept),
         completed: false
       });
     }
@@ -78,7 +77,7 @@ const extractKeyConcepts = (text: string): KeyConcept[] => {
   return concepts;
 };
 
-const generateDescription = (concept: KeyConcept, notes: string): string => {
+const generateDescription = (concept: KeyConcept): string => {
   const descriptions = [
     `Can you explain what ${concept.term} means without referring to your notes?`,
     `How would you describe ${concept.term} to someone who has never heard of it?`,
