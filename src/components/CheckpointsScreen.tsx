@@ -36,6 +36,12 @@ export const CheckpointsScreen: React.FC<CheckpointsScreenProps> = ({
     );
   };
 
+  // Add this handler
+  const handleDontKnow = (id: number) => {
+    // You can customize this logic (e.g., mark as "unknown", show explanation, etc.)
+    alert(`Checkpoint ${id}: You marked "I Don't Know"`);
+  };
+
   const completedCount = checkpoints.filter(cp => cp.completed).length;
   const totalCount = checkpoints.length;
   const progress = (completedCount / totalCount) * 100;
@@ -171,7 +177,7 @@ export const CheckpointsScreen: React.FC<CheckpointsScreenProps> = ({
                       <div className="font-semibold mb-1">Checkpoint {index + 1}: {checkpoint.title}</div>
                       <div className={`${isDark ? 'text-slate-300' : 'text-slate-600'}`}>{checkpoint.description}</div>
                     </ChatBubble>
-                    <div className="flex justify-end">
+                    <div className="flex gap-2 justify-end mt-2">
                       <button
                         onClick={() => toggleCheckpoint(checkpoint.id)}
                         className={`px-3 py-2 rounded-full text-sm font-medium flex items-center gap-2 border transition-colors ${
@@ -186,6 +192,13 @@ export const CheckpointsScreen: React.FC<CheckpointsScreenProps> = ({
                       >
                         {checkpoint.completed ? <CheckCircle size={16} /> : <Circle size={16} />}
                         {checkpoint.completed ? 'Completed' : 'Mark complete'}
+                      </button>
+                      {/* Add "I Don't Know" button */}
+                      <button
+                        onClick={() => handleDontKnow(checkpoint.id)}
+                        className="px-3 py-2 rounded-full text-sm font-medium flex items-center gap-2 border bg-amber-600 hover:bg-amber-700 text-white border-amber-300"
+                      >
+                        I Don't Know
                       </button>
                     </div>
                   </div>
