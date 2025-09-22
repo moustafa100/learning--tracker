@@ -3,8 +3,25 @@ import { HomeScreen } from './components/HomeScreen';
 import { NotesScreen } from './components/NotesScreen';
 import { CheckpointsScreen } from './components/CheckpointsScreen';
 import { FeedbackScreen } from './components/FeedbackScreen';
+import { ExplanationScreen } from './components/ExplanationScreen';
 import { generateCheckpoints } from './utils/generateCheckpoints';
 import { LearningSession } from './types';
+
+
+export default App;
+
+import type { Checkpoint } from './types';
+
+export interface CheckpointsScreenProps {
+  onBack: () => void;
+  onRestart: () => void;
+  onFeedback: () => void;
+  checkpoints: Checkpoint[];
+  notes: string;
+  isDark: boolean;
+  onToggleDark: () => void;
+  onDontKnow: (checkpointId: number) => void;
+}
 
 function App() {
   const [isDark, setIsDark] = useState(() => {
@@ -15,7 +32,8 @@ function App() {
   const [session, setSession] = useState<LearningSession>({
     notes: '',
     checkpoints: [],
-    currentStep: 'home'
+    currentStep: 'home',
+    currentCheckpointId: undefined
   });
 
   useEffect(() => {
@@ -76,6 +94,35 @@ function App() {
     setSession(prev => ({ ...prev, currentStep: 'checkpoints' }));
   };
 
+  const handleDontKnow = (checkpointId: number) => {
+    setSession(prev => ({
+      ...prev,
+      currentCheckpointId: checkpointId,
+      currentStep: 'explanation'
+    }));
+  };
+
+  const handleBackFromExplanation = () => {
+    setSession(prev => ({
+      ...prev,
+      currentStep: 'checkpoints'
+    }));
+  };
+
+  const handleUnderstood = () => {
+    if (session.currentCheckpointId) {
+      setSession(prev => ({
+        ...prev,
+        checkpoints: prev.checkpoints.map(cp => 
+          cp.id === session.currentCheckpointId 
+            ? { ...cp, completed: true, explanationRequested: true }
+            : cp
+        ),
+        currentStep: 'checkpoints'
+      }));
+    }
+  };
+
   const renderCurrentScreen = () => {
     switch (session.currentStep) {
       case 'home':
@@ -105,8 +152,20 @@ function App() {
             notes={session.notes}
             isDark={isDark}
             onToggleDark={toggleDarkMode}
+            onDontKnow={handleDontKnow}
           />
         );
+      case 'explanation':
+        const checkpoint = session.checkpoints.find(cp => cp.id === session.currentCheckpointId);
+        return checkpoint ? (
+          <ExplanationScreen
+            checkpoint={checkpoint}
+            onBack={handleBackFromExplanation}
+            onUnderstood={handleUnderstood}
+            isDark={isDark}
+            onToggleDark={toggleDarkMode}
+          />
+        ) : null;
       case 'feedback':
         return (
           <FeedbackScreen
@@ -133,4 +192,3 @@ function App() {
   );
 }
 
-export default App;
