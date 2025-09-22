@@ -13,7 +13,6 @@ interface CheckpointsScreenProps {
   notes: string;
   isDark: boolean;
   onToggleDark: () => void;
-  onDontKnow: (id: number) => void; // <-- Add this line
 }
 
 export const CheckpointsScreen: React.FC<CheckpointsScreenProps> = ({ 
@@ -23,8 +22,7 @@ export const CheckpointsScreen: React.FC<CheckpointsScreenProps> = ({
   checkpoints: initialCheckpoints,
   notes,
   isDark,
-  onToggleDark,
-  onDontKnow // <-- Add this line
+  onToggleDark
 }) => {
   const [checkpoints, setCheckpoints] = useState<Checkpoint[]>(initialCheckpoints);
   
@@ -36,6 +34,12 @@ export const CheckpointsScreen: React.FC<CheckpointsScreenProps> = ({
           : checkpoint
       )
     );
+  };
+
+  // Add this handler
+  const handleDontKnow = (id: number) => {
+    // You can customize this logic (e.g., mark as "unknown", show explanation, etc.)
+    alert(`Checkpoint ${id}: You marked "I Don't Know"`);
   };
 
   const completedCount = checkpoints.filter(cp => cp.completed).length;
@@ -191,7 +195,7 @@ export const CheckpointsScreen: React.FC<CheckpointsScreenProps> = ({
                       </button>
                       {/* Add "I Don't Know" button */}
                       <button
-                        onClick={() => onDontKnow(checkpoint.id)}
+                        onClick={() => handleDontKnow(checkpoint.id)}
                         className="px-3 py-2 rounded-full text-sm font-medium flex items-center gap-2 border bg-amber-600 hover:bg-amber-700 text-white border-amber-300"
                       >
                         I Don't Know

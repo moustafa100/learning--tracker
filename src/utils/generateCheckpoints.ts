@@ -2,6 +2,10 @@ import { Checkpoint } from '../types';
 
 export const generateCheckpoints = (notes: string): Checkpoint[] => {
   // Simulate AI processing by generating relevant checkpoints
+<<<<<<< HEAD
+=======
+  const sentences = notes.split(/[.!?]+/).filter(s => s.trim().length > 10);
+>>>>>>> 33fcb692ce54c984ca628fbd0b7a16a6b80b0943
   const concepts = extractKeyConcepts(notes);
   
   const checkpoints: Checkpoint[] = [];
@@ -13,7 +17,11 @@ export const generateCheckpoints = (notes: string): Checkpoint[] => {
       checkpoints.push({
         id: id++,
         title: `Understanding ${concept.term}`,
+<<<<<<< HEAD
         description: generateDescription(concept),
+=======
+        description: generateDescription(concept, notes),
+>>>>>>> 33fcb692ce54c984ca628fbd0b7a16a6b80b0943
         completed: false
       });
     }
@@ -77,7 +85,11 @@ const extractKeyConcepts = (text: string): KeyConcept[] => {
   return concepts;
 };
 
+<<<<<<< HEAD
 const generateDescription = (concept: KeyConcept): string => {
+=======
+const generateDescription = (concept: KeyConcept, notes: string): string => {
+>>>>>>> 33fcb692ce54c984ca628fbd0b7a16a6b80b0943
   const descriptions = [
     `Can you explain what ${concept.term} means without referring to your notes?`,
     `How would you describe ${concept.term} to someone who has never heard of it?`,

@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 ### AL ###
 #Template for AL projects for Dynamics 365 Business Central
 #launch.json folder
@@ -22,6 +23,8 @@ rad.json
 #Test results file
 TestResults.xml
 =======
+=======
+>>>>>>> 33fcb692ce54c984ca628fbd0b7a16a6b80b0943
 # Logs
 logs
 *.log
@@ -47,4 +50,7 @@ dist-ssr
 *.sln
 *.sw?
 .env
+<<<<<<< HEAD
 >>>>>>> e1f0774... Initial commit of project files
+=======
+>>>>>>> 33fcb692ce54c984ca628fbd0b7a16a6b80b0943
